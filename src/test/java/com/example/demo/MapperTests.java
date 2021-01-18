@@ -1,8 +1,10 @@
 package com.example.demo;
 
 import com.example.demo.dao.DiscussPostMapper;
+import com.example.demo.dao.LoginTicketMapper;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.entity.DiscussPost;
+import com.example.demo.entity.LoginTicket;
 import com.example.demo.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +22,8 @@ import java.util.List;
 public class MapperTests {
     @Autowired
     private UserMapper usermapper;
-
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
     @Autowired
     private DiscussPostMapper discussPostMapper;
     @Test
@@ -38,7 +41,7 @@ public class MapperTests {
         user.setUsername("Tom");
         user.setPassword("1234");
         user.setSalt("abc");
-        user.setMail("123@qq.com");
+        user.setEmail("123@qq.com");
         user.setHeaderUrl("http://www.nowcoder.com/101.png");
         user.setCreateTime(new Date());
 
@@ -64,5 +67,15 @@ public class MapperTests {
         int rows = discussPostMapper.selectDiscussPostRows(149);
         System.out.println(rows);
 
+    }
+    @Test
+    public void testInsertLoginTicket(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setTicket("abc");
+        loginTicket.setUserId(123);
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60) );
+
+        loginTicketMapper.insertLoginTicket(loginTicket);
     }
 }

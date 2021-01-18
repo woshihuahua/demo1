@@ -1,14 +1,17 @@
 package com.example.demo.controller;
 
 import com.example.demo.service.AlphaService;
+import com.example.demo.util.CommunityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
@@ -134,5 +137,31 @@ public class alphacontroller {
 
         return List;
     }
+    @RequestMapping(path = "/setCookie",method = RequestMethod.GET)
+    @ResponseBody
+    public String setCookie(HttpServletResponse response){
+        Cookie cookie = new Cookie("code", CommunityUtil.generateUUID());
+        cookie.setPath("/alpha");
+        cookie.setMaxAge(60*10);
+        response.addCookie(cookie);
+        return "hello";
     }
+    @RequestMapping(path = "/setSession",method = RequestMethod.GET)
+    @ResponseBody
+    public String setSession(HttpSession session){
+        session.setAttribute("id",1);
+        session.setAttribute("name","bill");
+        return "set session";
+
+    }
+    @RequestMapping(path = "/getSession",method = RequestMethod.GET)
+    @ResponseBody
+    public String getSession(HttpSession session){
+
+        System.out.println(session.getAttribute("id"));
+        System.out.println(session.getAttribute("name"));
+        return "12";
+
+    }
+}
 
